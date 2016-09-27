@@ -15,7 +15,7 @@
 抽奖规则:
 为了保证抽奖过程公正透明，中奖号码计算规则如下
 
-1. 开奖日收盘时的上证指数 x 收盘时的深证指数 x 10000 =12位数。（指数以证交所公布数字为准）
+1. 开奖日收盘时的上证指数 x 收盘时的深证指数 x 10000 = 12 位数。（指数以证交所公布数字为准）
 2. 将此12位数的数字倒序排列后（如首位是0，则直接抹去），再除以开奖截止时间发放的抽奖号总数，得到的余数加1即为本次活动的最终中奖号码。
 3. 若您的抽奖号与最终中奖号码完全一致，就可以获得本次活动的大奖！
 
@@ -65,25 +65,35 @@ CREATE TABLE `lottery` (
 CREATE TABLE `lottery_winner` (
 	`lottery_id` int(11) NOT NULL,
 	`number` int(11) NOT NULL,
+	`user_id` int(11) NOT NULL,
+	`date` date NOT NULL,
+	PRIMARY KEY (`lottery_id`),
+	FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
+	FOREIGN KEY (`date`) REFERENCES `lottery_param ` (`date`)
+);
+
+-- 记录每天的上证指数与深证指数
+CREATE TABLE `lottery_param` (
 	`date` date NOT NULL,
 	`sh_param` float NOT NULL,
 	`sz_param` float NOT NULL,
-	PRIMARY KEY (`lottery_id`),
-);
+	PRIMARY KEY (`date`),
+)
 
--- 用户获奖号码
+-- 用户抽奖号码
 CREATE TABLE `lottery_user_number` (
 	`lottery_id` int(11) NOT NULL,
 	`number` int(11) NOT NULL,
 	`user_id` int(11) NOT NULL,
 	`create_time` datetime NOT NULL,
 	PRIMARY KEY (`lottery_id`, `number`),
+	FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
 );
 ```
 
 表 `lottery_user_number` 使用了复合主键, 能确保了每个奖品获奖号码的唯一性.
 
-### 可能遇到的问题
+### 可能存在的问题
 
 + Redis 故障
   + Redis 主从模式 + Keepalive + VIP. 但这种方案仍然可能导致丢失数据. Master 发生宕机, 但数据未完全同步至 Slave, 此时将 Slave 提升为 Master, 会导致同步未完成的数据丢失.

@@ -47,8 +47,18 @@ class LotteryWinner(db.Model):
     lottery_id = db.Column(db.Integer, primary_key=True)
     # 中奖号码
     number = db.Column(db.Integer, nullable=False)
+    # 中奖用户 id
+    user_id = db.Column(db.Integer, index=True, nullable=False)
     # 数据日期
-    date = db.Column(db.Date(), nullable=False)
+    date = db.Column(db.Date(), index=True, nullable=False)
+
+
+class LotteryParam(db.Model):
+    """
+    记录每天的上证指数与深证指数
+    """
+    # 数据日期
+    date = db.Column(db.Date(), nullable=False, primary_key=True)
     # 上证指数
     sh_param = db.Column(db.Float, nullable=False)
     # 深证指数
