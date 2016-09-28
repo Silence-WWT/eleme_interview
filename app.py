@@ -30,11 +30,11 @@ class Lottery(db.Model):
     # 奖励名称
     reward = db.Column(db.Unicode(64), nullable=False)
     # 开始时间
-    start_time = db.Column(db.DateTime(), nullable=False)
+    start_time = db.Column(db.DateTime, nullable=False)
     # 结束时间
-    end_time = db.Column(db.DateTime(), nullable=False)
+    end_time = db.Column(db.DateTime, nullable=False)
     # 公开抽奖时间
-    publish_time = db.Column(db.DateTime(), nullable=False)
+    publish_time = db.Column(db.DateTime, nullable=False)
     # 最大抽奖号码
     max_number = db.Column(db.Integer, default=0, nullable=False)
 
@@ -50,7 +50,7 @@ class LotteryWinner(db.Model):
     # 中奖用户 id
     user_id = db.Column(db.Integer, index=True, nullable=False)
     # 数据日期
-    date = db.Column(db.Date(), index=True, nullable=False)
+    date = db.Column(db.Date, index=True, nullable=False)
 
 
 class LotteryParam(db.Model):
@@ -58,7 +58,7 @@ class LotteryParam(db.Model):
     记录每天的上证指数与深证指数
     """
     # 数据日期
-    date = db.Column(db.Date(), nullable=False, primary_key=True)
+    date = db.Column(db.Date, nullable=False, primary_key=True)
     # 上证指数
     sh_param = db.Column(db.Float, nullable=False)
     # 深证指数
@@ -76,7 +76,7 @@ class LotteryUserNumber(db.Model):
     # 用户 id
     user_id = db.Column(db.Integer, index=True, nullable=False)
     # 时间
-    create_time = db.Column(db.DateTime(), nullable=False)
+    create_time = db.Column(db.DateTime, nullable=False)
 
 
 class LotteryUserCount(db.Model):
